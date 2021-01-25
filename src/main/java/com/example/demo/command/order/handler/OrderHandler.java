@@ -15,6 +15,8 @@ import com.example.demo.command.order.aggregate.OrderAggregate;
 import com.example.demo.command.order.commands.CreateOrderCommand;
 import com.example.demo.command.order.events.OrderCreatedEvent;
 import com.example.demo.command.product.aggregate.ProductAggregate;
+import com.example.demo.exception.EntityNotFoundException;
+import com.example.demo.exception.ProductStockInsufficientException;
 
 @Component
 public class OrderHandler {
@@ -34,11 +36,11 @@ public class OrderHandler {
 				Aggregate<ProductAggregate> load = this.productAggregateRepository.load(productId);
 				Integer stock = load.invoke(ProductAggregate::getStock);
 				if (number > stock)
-					throw new IllegalArgumentException();
+					throw new ProductStockInsufficientException("库存不够");
 
 				products.put(productId, number);
 			} catch (AggregateNotFoundException e) {
-				e.printStackTrace();
+				throw new EntityNotFoundException("商品不存在");
 			}
 		});
 
