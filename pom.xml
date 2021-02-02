@@ -85,6 +85,39 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+            <plugin>
+                <groupId>org.pitest</groupId>
+                <artifactId>pitest-maven</artifactId>
+                <version>1.6.2</version>
+                <executions>
+                    <execution>
+                        <id>pi-report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>mutationCoverage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <targetClasses>
+                        <param>com.example.demo.command.saga.**</param>
+                        <param>com.example.demo.command.order.aggregate.**</param>
+                        <param>com.example.demo.command.order.handler.**</param>
+                        <param>com.example.demo.command.product.aggregate.**</param>
+                        <param>com.example.demo.command.product.handler.**</param>
+                    </targetClasses>
+                    <targetTests>
+                        <param>com.example.demo.command.**</param>
+                    </targetTests>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.pitest</groupId>
+                        <artifactId>pitest-junit5-plugin</artifactId>
+                        <version>0.12</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
         </plugins>
     </build>
 
