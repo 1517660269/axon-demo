@@ -3,6 +3,7 @@ package com.example.demo.exception;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
@@ -23,10 +24,31 @@ public class GlobalDefaultExceptionHandler {
 		return new ErrorMessage(status.value(), e.getLocalizedMessage());
 	}
 
-	@ExceptionHandler(Exception.class)
+	@ExceptionHandler(EntityExistsException.class)
+	public ErrorMessage handleEntityExistsException(EntityExistsException e, HttpServletResponse response) {
+		HttpStatus status = HttpStatus.CONFLICT;
+		response.setStatus(status.value());
+		return new ErrorMessage(status.value(), e.getLocalizedMessage());
+	}
+
+	@ExceptionHandler(InvalidVerificationCodeException.class)
+	public ErrorMessage handleInvalidVerificationCodeException(InvalidVerificationCodeException e, HttpServletResponse response) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		response.setStatus(status.value());
+		return new ErrorMessage(status.value(), e.getLocalizedMessage());
+	}
+
+	@ExceptionHandler(MethodArgumentNotValidException.class)
+	public ErrorMessage handleMethodArgumentNotValidException(MethodArgumentNotValidException e, HttpServletResponse response) {
+		HttpStatus status = HttpStatus.BAD_REQUEST;
+		response.setStatus(status.value());
+		return new ErrorMessage(status.value(), e.getMessage());
+	}
+
+	/*@ExceptionHandler(Exception.class)
 	public ErrorMessage handleException(Exception e, HttpServletResponse response) {
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 		response.setStatus(status.value());
 		return new ErrorMessage(status.value(), e.getLocalizedMessage());
-	}
+	}*/
 }

@@ -1,10 +1,10 @@
-package com.example.demo.query.order.modle;
+package com.example.demo.query.order.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 
-import com.example.demo.query.product.modle.Product;
+import com.example.demo.query.product.model.Product;
 
 @Entity(name = "order_item")
 public class OrderItem {

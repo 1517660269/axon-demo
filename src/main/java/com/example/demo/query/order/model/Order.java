@@ -1,4 +1,4 @@
-package com.example.demo.query.order.modle;
+package com.example.demo.query.order.model;
 
 import java.util.List;
 import javax.persistence.CascadeType;

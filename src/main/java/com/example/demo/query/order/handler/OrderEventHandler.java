@@ -9,10 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.demo.command.order.events.OrderCreatedEvent;
-import com.example.demo.query.order.modle.Order;
-import com.example.demo.query.order.modle.OrderItem;
+import com.example.demo.query.order.model.Order;
+import com.example.demo.query.order.model.OrderItem;
 import com.example.demo.query.order.repository.OrderRepository;
-import com.example.demo.query.product.modle.Product;
+import com.example.demo.query.product.model.Product;
 import com.example.demo.query.product.repository.ProductRepository;
 
 @Component

@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 import com.example.demo.command.product.events.ProductCreatedEvent;
 import com.example.demo.command.product.events.ProductStockReducedEvent;
 import com.example.demo.query.product.repository.ProductRepository;
-import com.example.demo.query.product.modle.Product;
+import com.example.demo.query.product.model.Product;
 
 @Component
 public class ProductEventHandler {

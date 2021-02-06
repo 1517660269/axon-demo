@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.example.demo.command.order.aggregate.OrderAggregate;
 import com.example.demo.command.product.aggregate.ProductAggregate;
+import com.example.demo.command.user.aggregate.UserAggregate;
 
 @Configuration
 public class RepositoryConfig {
@@ -23,7 +24,12 @@ public class RepositoryConfig {
 
 	@Bean
 	public Repository<ProductAggregate> productAggregateRepository() {
-		return EventSourcingRepository. builder(ProductAggregate.class).eventStore(eventStore).build();
+		return EventSourcingRepository.builder(ProductAggregate.class).eventStore(eventStore).build();
+	}
+
+	@Bean
+	public Repository<UserAggregate> userAggregateRepository() {
+		return EventSourcingRepository.builder(UserAggregate.class).eventStore(eventStore).build();
 	}
 
 }

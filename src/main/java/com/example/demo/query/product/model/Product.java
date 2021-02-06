@@ -1,4 +1,4 @@
-package com.example.demo.query.product.modle;
+package com.example.demo.query.product.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
