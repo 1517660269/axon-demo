@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.command.product.commands.CreateProductCommand;
-import com.example.demo.controller.api.ProductAPI;
+import com.example.demo.controller.api.ProductApi;
 
 @RestController
 public class ProductController {
@@ -21,7 +21,7 @@ public class ProductController {
 	private CommandGateway commandGateway;
 
 	@PostMapping("/product")
-	public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductAPI productAPI) {
+	public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductApi productAPI) {
 		String productId = UUID.randomUUID().toString();
 		this.commandGateway.sendAndWait(new CreateProductCommand(productId, productAPI.getName(), productAPI.getPrice(), productAPI.getStock(), productAPI.getIntroduction()));
 		return ResponseEntity.created(URI.create("/product/" + productId)).build();

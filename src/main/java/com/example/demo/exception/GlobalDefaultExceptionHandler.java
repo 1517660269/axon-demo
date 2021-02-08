@@ -45,6 +45,20 @@ public class GlobalDefaultExceptionHandler {
 		return new ErrorMessage(status.value(), e.getMessage());
 	}
 
+	@ExceptionHandler(TokenException.class)
+	public ErrorMessage handleTokenException(TokenException e, HttpServletResponse response) {
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		response.setStatus(status.value());
+		return new ErrorMessage(status.value(), e.getLocalizedMessage());
+	}
+
+	@ExceptionHandler(LoginFailedException.class)
+	public ErrorMessage handleLoginFailedException(LoginFailedException e, HttpServletResponse response) {
+		HttpStatus status = HttpStatus.UNAUTHORIZED;
+		response.setStatus(status.value());
+		return new ErrorMessage(status.value(), e.getLocalizedMessage());
+	}
+
 	/*@ExceptionHandler(Exception.class)
 	public ErrorMessage handleException(Exception e, HttpServletResponse response) {
 		HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;

@@ -1,6 +1,6 @@
 package com.example.demo.controller.api;
 
-public class ProductAPI {
+public class ProductApi {
 
 	private String name;
 
