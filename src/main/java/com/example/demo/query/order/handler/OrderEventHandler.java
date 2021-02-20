@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.UUID;
 
 import org.axonframework.eventhandling.EventHandler;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,6 +29,7 @@ public class OrderEventHandler {
 	public void on(OrderCreatedEvent event) {
 		Order order = new Order();
 		order.setOrderId(event.getOrderId());
+		BeanUtils.copyProperties(event, order);
 		List<OrderItem> list = new ArrayList<>();
 		event.getProducts().forEach((productId, number) -> {
 			Product product = this.productRepository.findById(productId).get();
@@ -37,7 +39,6 @@ public class OrderEventHandler {
 			orderItem.setNumber(number);
 			orderItem.setProduct(product);
 
-			order.setTotalPrice(order.getTotalPrice() + number * product.getPrice());
 			list.add(orderItem);
 		});
 		order.setOrders(list);

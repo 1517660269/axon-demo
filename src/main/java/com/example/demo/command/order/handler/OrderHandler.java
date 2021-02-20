@@ -45,7 +45,7 @@ public class OrderHandler {
 		});
 
 		this.repository.newInstance(() -> {
-			AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), products));
+			AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), command.getName(), command.getMobile(), command.getAddress(), command.getTotalPrice(), products));
 			return new OrderAggregate();
 		});
 	}

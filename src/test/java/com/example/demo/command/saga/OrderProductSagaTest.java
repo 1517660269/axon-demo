@@ -29,7 +29,7 @@ public class OrderProductSagaTest {
 
 		sagaFixture.givenAggregate("orderId")
 				.published()
-				.whenPublishingA(new OrderCreatedEvent("orderId", map))
+				.whenPublishingA(new OrderCreatedEvent("orderId", "tom", "18888888888", "China", 5800, map))
 				.expectAssociationWith("productId", "productId")
 				.expectAssociationWith("productId", "id")
 				.expectDispatchedCommands(new ReduceProductStockCommand("productId", 3), new ReduceProductStockCommand("id", 5))
@@ -37,7 +37,7 @@ public class OrderProductSagaTest {
 
 		//测试ProductStockReducedEvent
 		sagaFixture.givenAggregate("productId")
-				.published(new OrderCreatedEvent("orderId", map))
+				.published(new OrderCreatedEvent("orderId", "tom", "18888888888", "China", 5800, map))
 				.whenPublishingA(new ProductStockReducedEvent("productId", 3))
 				.expectActiveSagas(0)
 				.expectNoDispatchedCommands();

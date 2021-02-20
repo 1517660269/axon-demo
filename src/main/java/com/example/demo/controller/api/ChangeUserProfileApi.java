@@ -1,12 +1,13 @@
 package com.example.demo.controller.api;
 
-public class UserProfileApi {
+import javax.validation.constraints.NotBlank;
 
+public class ChangeUserProfileApi {
+
+	@NotBlank
 	private String username;
 
 	private String realName;
-
-	private String mobile;
 
 	private String deliveryAddress;
 
@@ -24,14 +25,6 @@ public class UserProfileApi {
 
 	public void setRealName(String realName) {
 		this.realName = realName;
-	}
-
-	public String getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(String mobile) {
-		this.mobile = mobile;
 	}
 
 	public String getDeliveryAddress() {

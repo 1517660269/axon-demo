@@ -22,7 +22,7 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return parameter.hasParameterAnnotation(CurrentUser.class);
+		return parameter.hasParameterAnnotation(CurrentUserId.class);
 	}
 
 	@Override
@@ -30,6 +30,6 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
 		String token = request.getHeader("Authorization");
 		User user = this.userRepository.findByUsername(TokenUtil.getAccountByJwt(token));
-		return user;
+		return user.getId();
 	}
 }

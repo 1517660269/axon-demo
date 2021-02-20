@@ -12,10 +12,16 @@ public class Order {
 	@Id
 	private String orderId;
 
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<OrderItem> orders;
+	private String name;
+
+	private String mobile;
+
+	private String address;
 
 	private double totalPrice;
+
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<OrderItem> orders;
 
 	public String getOrderId() {
 		return orderId;
@@ -23,6 +29,38 @@ public class Order {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public double getTotalPrice() {
+		return totalPrice;
+	}
+
+	public void setTotalPrice(double totalPrice) {
+		this.totalPrice = totalPrice;
 	}
 
 	public List<OrderItem> getOrders() {
@@ -33,11 +71,4 @@ public class Order {
 		this.orders = orders;
 	}
 
-	public double getTotalPrice() {
-		return totalPrice;
-	}
-
-	public void setTotalPrice(double totalPrice) {
-		this.totalPrice = totalPrice;
-	}
 }

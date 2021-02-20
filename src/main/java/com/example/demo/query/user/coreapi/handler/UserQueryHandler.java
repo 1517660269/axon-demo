@@ -4,6 +4,7 @@ import org.axonframework.queryhandling.QueryHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.example.demo.query.user.coreapi.query.FindUserByIdQuery;
 import com.example.demo.query.user.coreapi.query.FindUserByMobileOrUsernameQuery;
 import com.example.demo.query.user.model.User;
 import com.example.demo.query.user.repository.UserRepository;
@@ -19,4 +20,8 @@ public class UserQueryHandler {
 		return this.userRepository.findUserByUsernameOrMobile(query.getAccount());
 	}
 
+	@QueryHandler
+	public User query(FindUserByIdQuery query) {
+		return this.userRepository.findById(query.getCurrentUserId()).orElse(null);
+	}
 }

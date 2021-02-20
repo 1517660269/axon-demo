@@ -48,17 +48,17 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 			if (userLoginToken.required()) {
 				String token = request.getHeader("Authorization");
 				if (token == null)
-					throw new TokenException("无 token 认证");
+					throw new TokenException("token 认证失败");
 
 				User user = this.userRepository.findUserByUsernameOrMobile(TokenUtil.getAccountByJwt(token));
 				if (user == null)
-					throw new EntityNotFoundException();
+					throw new TokenException("token 认证失败");
 
-				if (!TokenUtil.verify(token))
-					return false;
+				if (TokenUtil.verify(token))
+					return true;
 			}
 		}
 
-		return true;
+		throw new TokenException("token 认证失败");
 	}
 }
