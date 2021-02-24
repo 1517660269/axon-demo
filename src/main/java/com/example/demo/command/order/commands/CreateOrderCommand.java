@@ -16,13 +16,16 @@ public class CreateOrderCommand {
 
 	private Map<String, Integer> products;
 
-	public CreateOrderCommand(String orderId, String name, String mobile, String address, double totalPrice, Map<String, Integer> products) {
+	private String currentUserId;
+
+	public CreateOrderCommand(String orderId, String name, String mobile, String address, double totalPrice, Map<String, Integer> products, String currentUserId) {
 		this.orderId = orderId;
 		this.name = name;
 		this.mobile = mobile;
 		this.address = address;
 		this.totalPrice = totalPrice;
 		this.products = products;
+		this.currentUserId = currentUserId;
 	}
 
 	public String getOrderId() {
@@ -47,5 +50,9 @@ public class CreateOrderCommand {
 
 	public Map<String, Integer> getProducts() {
 		return products;
+	}
+
+	public String getCurrentUserId() {
+		return currentUserId;
 	}
 }

@@ -1,10 +1,11 @@
-package com.example.demo.query.order.handler;
+package com.example.demo.query.order.coreapi.handler;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.messaging.annotation.MetaDataValue;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,7 @@ import com.example.demo.query.order.model.OrderItem;
 import com.example.demo.query.order.repository.OrderRepository;
 import com.example.demo.query.product.model.Product;
 import com.example.demo.query.product.repository.ProductRepository;
+import com.example.demo.query.user.repository.UserRepository;
 
 @Component
 public class OrderEventHandler {
@@ -25,8 +27,11 @@ public class OrderEventHandler {
 	@Autowired
 	private ProductRepository productRepository;
 
+	@Autowired
+	private UserRepository userRepository;
+
 	@EventHandler
-	public void on(OrderCreatedEvent event) {
+	public void on(OrderCreatedEvent event, @MetaDataValue("currentUserId") String currentUserId) {
 		Order order = new Order();
 		order.setOrderId(event.getOrderId());
 		BeanUtils.copyProperties(event, order);
@@ -42,6 +47,7 @@ public class OrderEventHandler {
 			list.add(orderItem);
 		});
 		order.setOrders(list);
+		order.setUser(this.userRepository.findById(currentUserId).get());
 		this.orderRepository.save(order);
 	}
 

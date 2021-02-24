@@ -9,7 +9,7 @@ import com.example.demo.command.product.commands.CreateProductCommand;
 import com.example.demo.command.product.commands.ReduceProductStockCommand;
 import com.example.demo.command.product.events.ProductCreatedEvent;
 import com.example.demo.command.product.events.ProductStockReducedEvent;
-import com.example.demo.exception.ProductStockInsufficientException;
+import com.example.demo.exception.ProductNotEnoughException;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -51,7 +51,7 @@ public class ProductAggregateTest {
 	public void reduceProductStockCommandException() {
 		fixture.given(new ProductCreatedEvent("productId", "shirt", 55.8, 50, "introduction"))
 				.when(new ReduceProductStockCommand("productId", 51))
-				.expectException(ProductStockInsufficientException.class);
+				.expectException(ProductNotEnoughException.class);
 
 	}
 }

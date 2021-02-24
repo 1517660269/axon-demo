@@ -1,0 +1,30 @@
+version: '3'
+
+volumes:
+  mysql-data:
+
+networks:
+  dev:
+
+services:
+  db-service:
+    image: mysql:8.0.22
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=axon
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - db
+
+  axon-service:
+    build:
+      context: .
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db-service/axon?serverTimezone=Asia/Shanghai
+    ports:
+      - "8090:8090"
+    networks:
+      - dev
+    depends_on:
+      - db-service

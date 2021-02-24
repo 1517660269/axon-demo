@@ -17,8 +17,8 @@ public class GlobalDefaultExceptionHandler {
 		return new ErrorMessage(status.value(), e.getLocalizedMessage());
 	}
 
-	@ExceptionHandler(ProductStockInsufficientException.class)
-	public ErrorMessage handleProductStockInsufficientException(ProductStockInsufficientException e, HttpServletResponse response) {
+	@ExceptionHandler(ProductNotEnoughException.class)
+	public ErrorMessage handleProductStockInsufficientException(ProductNotEnoughException e, HttpServletResponse response) {
 		HttpStatus status = HttpStatus.BAD_REQUEST;
 		response.setStatus(status.value());
 		return new ErrorMessage(status.value(), e.getLocalizedMessage());

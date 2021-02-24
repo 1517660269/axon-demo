@@ -41,13 +41,13 @@ public class OrderAggregateTest {
 
 		productAggregateFixtureConfiguration.given(new ProductCreatedEvent("productId", "shirt", 58, 50, ""));
 		fixture.givenNoPriorActivity()
-				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 58, map))
+				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 58, map, "tom"))
 				.expectSuccessfulHandlerExecution()
 				.expectEvents(new OrderCreatedEvent("orderId", "tom", "18888888888", "China", 58, map));
 
 		map.put("productId", 50);
 		fixture.givenNoPriorActivity()
-				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 2940, map))
+				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 2940, map, "tom"))
 				.expectSuccessfulHandlerExecution()
 				.expectEvents(new OrderCreatedEvent("orderId", "tom", "18888888888", "China", 2940, map));
 
@@ -61,7 +61,7 @@ public class OrderAggregateTest {
 
 		productAggregateFixtureConfiguration.given(new ProductCreatedEvent("productId", "shirt", 58, 50, ""));
 		fixture.givenNoPriorActivity()
-				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 5800, map))
+				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 5800, map, "tom"))
 				.expectException(RuntimeException.class);
 
 	}
@@ -72,7 +72,7 @@ public class OrderAggregateTest {
 		map.put("id", 10);
 
 		fixture.givenNoPriorActivity()
-				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 580, map))
+				.when(new CreateOrderCommand("orderId", "tom", "18888888888", "China", 580, map, "tom"))
 				.expectException(EntityNotFoundException.class)
 				.expectExceptionMessage("商品不存在");
 

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.command.product.commands.CreateProductCommand;
 import com.example.demo.controller.api.ProductApi;
+import com.example.demo.security.UserLoginToken;
 
 @RestController
 public class ProductController {
@@ -21,6 +22,7 @@ public class ProductController {
 	private CommandGateway commandGateway;
 
 	@PostMapping("/product")
+	@UserLoginToken
 	public ResponseEntity<Void> createProduct(@Valid @RequestBody ProductApi productAPI) {
 		String productId = UUID.randomUUID().toString();
 		this.commandGateway.sendAndWait(new CreateProductCommand(productId, productAPI.getName(), productAPI.getPrice(), productAPI.getStock(), productAPI.getIntroduction()));

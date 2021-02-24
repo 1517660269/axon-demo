@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.axonframework.commandhandling.CommandHandler;
+import org.axonframework.messaging.MetaData;
 import org.axonframework.modelling.command.Aggregate;
 import org.axonframework.modelling.command.AggregateLifecycle;
 import org.axonframework.modelling.command.AggregateNotFoundException;
@@ -16,7 +17,7 @@ import com.example.demo.command.order.commands.CreateOrderCommand;
 import com.example.demo.command.order.events.OrderCreatedEvent;
 import com.example.demo.command.product.aggregate.ProductAggregate;
 import com.example.demo.exception.EntityNotFoundException;
-import com.example.demo.exception.ProductStockInsufficientException;
+import com.example.demo.exception.ProductNotEnoughException;
 
 @Component
 public class OrderHandler {
@@ -28,7 +29,7 @@ public class OrderHandler {
 	private Repository<ProductAggregate> productAggregateRepository;
 
 	@CommandHandler
-	public void handler(CreateOrderCommand command) throws Exception {
+	public void handle(CreateOrderCommand command) throws Exception {
 		Map<String, Integer> products = new HashMap<>();
 
 		command.getProducts().forEach((productId, number) -> {
@@ -36,7 +37,7 @@ public class OrderHandler {
 				Aggregate<ProductAggregate> load = this.productAggregateRepository.load(productId);
 				Integer stock = load.invoke(ProductAggregate::getStock);
 				if (number > stock)
-					throw new ProductStockInsufficientException("库存不够");
+					throw new ProductNotEnoughException("库存不够");
 
 				products.put(productId, number);
 			} catch (AggregateNotFoundException e) {
@@ -45,7 +46,7 @@ public class OrderHandler {
 		});
 
 		this.repository.newInstance(() -> {
-			AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), command.getName(), command.getMobile(), command.getAddress(), command.getTotalPrice(), products));
+			AggregateLifecycle.apply(new OrderCreatedEvent(command.getOrderId(), command.getName(), command.getMobile(), command.getAddress(), command.getTotalPrice(), command.getProducts()), MetaData.with("currentUserId", command.getCurrentUserId()));
 			return new OrderAggregate();
 		});
 	}

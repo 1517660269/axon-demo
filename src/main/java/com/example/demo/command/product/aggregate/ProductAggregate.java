@@ -10,7 +10,7 @@ import com.example.demo.command.product.commands.CreateProductCommand;
 import com.example.demo.command.product.commands.ReduceProductStockCommand;
 import com.example.demo.command.product.events.ProductCreatedEvent;
 import com.example.demo.command.product.events.ProductStockReducedEvent;
-import com.example.demo.exception.ProductStockInsufficientException;
+import com.example.demo.exception.ProductNotEnoughException;
 
 @Aggregate
 public class ProductAggregate {
@@ -37,7 +37,7 @@ public class ProductAggregate {
 	@CommandHandler
 	public void handler(ReduceProductStockCommand command) {
 		if (command.getNumber() > stock)
-			throw new ProductStockInsufficientException("商品存库不足");
+			throw new ProductNotEnoughException("商品存库不足");
 		AggregateLifecycle.apply(new ProductStockReducedEvent(command.getProductId(), this.stock - command.getNumber()));
 	}
 

@@ -5,12 +5,18 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+
+import com.example.demo.query.user.model.User;
 
 @Entity(name = "order_entry")
 public class Order {
 
 	@Id
 	private String orderId;
+
+	@OneToOne
+	private User user;
 
 	private String name;
 
@@ -29,6 +35,14 @@ public class Order {
 
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public String getName() {
