@@ -20,6 +20,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	@Autowired
 	private UserRepository userRepository;
 
+	private static final String SCHEMA = "Bearer ";
+
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
 		return parameter.hasParameterAnnotation(CurrentUserId.class);
@@ -28,8 +30,8 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
 		HttpServletRequest request = webRequest.getNativeRequest(HttpServletRequest.class);
-		String token = request.getHeader("Authorization");
-		User user = this.userRepository.findByUsername(TokenUtil.getAccountByJwt(token));
+		String header = request.getHeader("Authorization");
+		User user = this.userRepository.findByUsername(TokenUtil.getAccountByJwt(header.substring(SCHEMA.length())));
 		return user.getId();
 	}
 }

@@ -1,4 +1,4 @@
-package com.example.demo.query.product.handler;
+package com.example.demo.query.product.coreapi.handler;
 
 import org.axonframework.eventhandling.EventHandler;
 import org.springframework.beans.BeanUtils;

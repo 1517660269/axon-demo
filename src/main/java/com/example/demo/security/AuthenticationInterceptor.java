@@ -18,6 +18,8 @@ import com.example.demo.utils.TokenUtil;
 @Component
 public class AuthenticationInterceptor implements HandlerInterceptor {
 
+	private static final String SCHEMA = "Bearer ";
+
 	@Autowired
 	private UserRepository userRepository;
 
@@ -46,10 +48,14 @@ public class AuthenticationInterceptor implements HandlerInterceptor {
 		if (method.isAnnotationPresent(UserLoginToken.class)) {
 			UserLoginToken userLoginToken = method.getAnnotation(UserLoginToken.class);
 			if (userLoginToken.required()) {
-				String token = request.getHeader("Authorization");
-				if (token == null)
+				String header = request.getHeader("Authorization");
+				if (header == null || header.length() < SCHEMA.length())
 					throw new TokenException("token 认证失败");
 
+				if (!SCHEMA.equalsIgnoreCase(header.substring(0, SCHEMA.length())))
+					throw new TokenException("token 认证失败");
+
+				String token = header.substring(SCHEMA.length());
 				User user = this.userRepository.findUserByUsernameOrMobile(TokenUtil.getAccountByJwt(token));
 				if (user == null)
 					throw new TokenException("token 认证失败");
