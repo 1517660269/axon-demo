@@ -38,4 +38,8 @@ public final class TokenUtil {
 			throw new TokenException("认证失败");
 		}
 	}
+
+	private TokenUtil() {
+		throw new UnsupportedOperationException();
+	}
 }
